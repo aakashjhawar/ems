@@ -14,12 +14,19 @@ export class CreateEmployeeComponent implements OnInit {
   ngOnInit() {
     this.employeeForm = new FormGroup({
       fullName: new FormControl(),
-      email: new FormControl()
+      email: new FormControl(),
+      skills: new FormGroup({
+        skillName: new FormControl(),
+        experienceInYears: new FormControl(),
+        proficiency: new FormControl()
+      })
     });
   }
 
   onSubmit(): void { // method dont return anything so void
     console.log(this.employeeForm.value);
+    console.log(this.employeeForm.controls.fullName.value);
+    console.log(this.employeeForm.get('fullName').value);
   }
 
 }
