@@ -26,22 +26,26 @@ export class CreateEmployeeComponent implements OnInit {
     this.employeeForm.valueChanges.subscribe( value => {
       console.log(JSON.stringify(value));
     });
-    
+
     this.employeeForm.get('fullName').valueChanges.subscribe((value: string) => {
       this.fullNameLength = value.length;
     });
   }
 
-  onLoadDataClick() :void {
-    this.employeeForm.patchValue({
-      fullName: 'Aakash Jhawar',
-      email: 'aakash@gmail.com',
-      skills: {
-        skillName: 'Python',
-        experienceInYears: '3',
-        proficiency: 'beginner',
+  logKeyValuePairs(group: FormGroup): void {
+    Object.keys(group.controls).forEach((key: string) => {
+      const abstractControl = group.get(key);
+      if (abstractControl instanceof FormGroup) {
+        this.logKeyValuePairs(abstractControl);
+      } else {
+        abstractControl.disable();
+        console.log('key = ' + key + 'value =  ' + abstractControl.value);
       }
     });
+  }
+
+  onLoadDataClick(): void {
+    this.logKeyValuePairs(this.employeeForm);
   }
 
   onSubmit(): void { // method dont return anything so void
