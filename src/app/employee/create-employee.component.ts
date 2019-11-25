@@ -55,7 +55,7 @@ export class CreateEmployeeComponent implements OnInit {
     // });
   }
 
-  logValidationErrors(group: FormGroup): void {
+  logValidationErrors(group: FormGroup = this.employeeForm): void {
     Object.keys(group.controls).forEach((key: string) => {
       const abstractControl = group.get(key);
       if (abstractControl instanceof FormGroup) {
@@ -80,6 +80,7 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   onSubmit(): void { // method dont return anything so void
+    this.logValidationErrors(this.employeeForm);
     console.log(this.employeeForm.value);
     console.log(this.employeeForm.controls.fullName.value);
     console.log(this.employeeForm.get('fullName').value);
