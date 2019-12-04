@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-create-employee',
@@ -16,7 +16,8 @@ export class CreateEmployeeComponent implements OnInit {
       'maxlength': 'Full Name must be less than 10 characters.'
     },
     'email': {
-      'required': 'Email is required.'
+      'required': 'Email is required.',
+      'emailDomain': 'Email domain should be ems.'
     },
     'phone': {
       'required': 'Phone is required.',
@@ -47,8 +48,8 @@ export class CreateEmployeeComponent implements OnInit {
     this.employeeForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
       contactPreference: ['email'],
-      email: ['', Validators.required],
-      phone: ['', Validators.required],
+      email: ['', [Validators.required, emailDomain]],
+      phone: ['', ],
       skills: this.fb.group({
         skillName: ['', Validators.required],
         experienceInYears: ['', Validators.required],
@@ -62,7 +63,7 @@ export class CreateEmployeeComponent implements OnInit {
 
     this.employeeForm.get('contactPreference').valueChanges.subscribe((data: string) => {
       this.onContactPrefernceChange(data);
-});
+    });
   }
 
   logValidationErrors(group: FormGroup = this.employeeForm): void {
@@ -86,14 +87,11 @@ export class CreateEmployeeComponent implements OnInit {
 
   onLoadDataClick(): void {
     this.logValidationErrors(this.employeeForm);
-    console.log(this.formErrors);
   }
 
   onSubmit(): void { // method dont return anything so void
     this.logValidationErrors(this.employeeForm);
     console.log(this.employeeForm.value);
-    console.log(this.employeeForm.controls.fullName.value);
-    console.log(this.employeeForm.get('fullName').value);
   }
 
   onContactPrefernceChange(selectedValue: string) {
@@ -107,3 +105,14 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
 }
+
+function emailDomain(control: AbstractControl): { [key: string]: any } | null {
+  const email: string = control.value;
+  const domain = email.substring(email.lastIndexOf('@') + 1);
+  if (email === '' || domain.toLowerCase() === 'ems.com') {
+    return null;
+  } else {
+    return { 'emailDomain': true };
+  }
+}
+
