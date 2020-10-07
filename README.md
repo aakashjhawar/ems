@@ -1,6 +1,6 @@
 # Employee Management System
 
-Angular based Employee Management System where admin can manager other employee profiles.
+Employee Management System where admin can manager other employee profiles.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.9.
 
