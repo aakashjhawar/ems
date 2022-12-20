@@ -23,7 +23,7 @@
     "core-js": "^3.26.1",
     "jquery": "^3.6.1",
     "rxjs": "~6.6.6",
-    "tslib": "^2.4.0",
+    "tslib": "^2.4.1",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
